@@ -23,6 +23,8 @@
  */
 package org.tap4j.plugin.util;
 
+import org.tap4j.model.TestResult;
+
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -46,18 +48,37 @@ public class DiagnosticUtil {
         super();
     }
 
-    public static String createDiagnosticTable(String tapFile, Map<String, Object> diagnostic) {
+    private static String getInnerTableHeader(String id, String clazz) {
+        String innerTableHeader = "<tr TR_ID TR_CLASS>\n" +
+                "<td colspan='4' class='yaml' >\n" +
+                "<table width='100%' class='yaml' >";
+        if (id == null) {
+            innerTableHeader = innerTableHeader.replace("TR_ID", "");
+        } else {
+            innerTableHeader = innerTableHeader.replace("TR_ID", "id='tr_" + id + "'");
+        }
+        if (clazz == null) {
+            innerTableHeader = innerTableHeader.replace("TR_CLASS", "");
+        } else {
+            innerTableHeader = innerTableHeader.replace("TR_CLASS", "class='tr_" + clazz + "'");
+        }
+        return innerTableHeader;
+    }
+
+    public static String createDiagnosticTable(String tapFile, Map<String, Object> diagnostic, TestResult tapLine) {
         StringBuilder sb = new StringBuilder();
-        createDiagnosticTableRecursively(tapFile, null, diagnostic, sb, 1); // 1 is the first
-                                                                // depth
+        // 1 is the first depth
+        createDiagnosticTableRecursively(tapFile, null, diagnostic, sb, 1, tapLine);
         return sb.toString();
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static void createDiagnosticTableRecursively(String tapFile, String parentKey, 
-            Map<String, Object> diagnostic, StringBuilder sb, int depth) {
+            Map<String, Object> diagnostic, StringBuilder sb, int depth, TestResult tapLine) {
 
-        sb.append(INNER_TABLE_HEADER);
+        String id = getId(tapLine, tapFile);
+        String clazz = getClazz(tapLine);
+        sb.append(getInnerTableHeader(id, clazz));
 
         RENDER_TYPE renderType = getMapEntriesRenderType(diagnostic);
 
@@ -70,7 +91,7 @@ public class DiagnosticUtil {
                 for (int i = 0; i < depth; ++i) {
                     sb.append("<td width='5%' class='hidden'> </td>");
                 }
-                sb.append("<td style=\"width: auto;\">").append(key).append("</td>");
+                sb.append("<td style=\"width: auto;\">").append(key).append(jspm(getKeyId(key, id))).append("</td>");
                 if(key.equals("File-Content")) {
                     String fileName = "attachment";
                     Object o = diagnostic.get("File-Name");
@@ -85,7 +106,7 @@ public class DiagnosticUtil {
                     }
                     sb.append("<td><a href='downloadAttachment?f=").append(tapFile).append("&key=").append(downloadKey).append("'>").append(fileName).append("</a></td>");
                 } else {
-                    sb.append("<td><pre>").append(org.apache.commons.lang.StringEscapeUtils.escapeHtml(value.toString())).append("</pre></td>");
+                    sb.append("<td  id='").append(getKeyId(key, id)).append("' ><pre>").append(org.apache.commons.lang.StringEscapeUtils.escapeHtml(value.toString())).append("</pre></td>");
                 }
                 sb.append("</tr>");
             }
@@ -98,13 +119,13 @@ public class DiagnosticUtil {
                 for (int i = 0; i < depth; ++i) {
                     sb.append("<td width='5%' class='hidden'> </td>");
                 }
-                sb.append("<td style=\"width: auto;\">").append(key).append("</td>");
+                sb.append("<td style=\"width: auto;\">").append(key).append(jspm(getKeyId(key, id))).append("</td>");
                 if (value instanceof java.util.Map) {
                     sb.append("<td> </td>");
                     createDiagnosticTableRecursively(tapFile, key, (java.util.Map) value, sb,
-                            (depth + 1));
+                            (depth + 1), tapLine);
                 } else {
-                    sb.append("<td><pre>").append(org.apache.commons.lang.StringEscapeUtils.escapeHtml(value.toString())).append("</pre></td>");
+                    sb.append("<td  id='").append(getKeyId(key, id)).append("' ><pre>").append(org.apache.commons.lang.StringEscapeUtils.escapeHtml(value.toString())).append("</pre></td>");
                 }
                 sb.append("</tr>");
             }
@@ -123,6 +144,22 @@ public class DiagnosticUtil {
             renderType = RENDER_TYPE.IMAGE;
         }
         return renderType;
+    }
+
+    private static String getClazz(TestResult tapLine) {
+        return Util.getClazz("details_", tapLine);
+    }
+
+    private static String getKeyId(String key, String id) {
+        return key + "_" + id;
+    }
+
+    private static String getId(TestResult tapLine, String file) {
+        return Util.getId("details_", tapLine, file);
+    }
+
+    private static String jspm(String id) {
+        return " <u class=\"js+-\" onclick='showHideBlockOne(\"" + id + "\")'>+/-</u>";
     }
 
 }

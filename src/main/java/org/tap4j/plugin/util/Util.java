@@ -92,4 +92,12 @@ public final class Util {
         }
         return r;
     }
+
+    public static String getClazz(String prefix, TestResult tapLine) {
+        return prefix + tapLine.getStatus() + (tapLine.getDirective() == null ? "" : "_" + tapLine.getDirective().getDirectiveValue());
+    }
+
+    public static String getId(String prefix, TestResult tapLine, String file) {
+        return prefix + file + "_" + tapLine.getTestNumber() + "_" + tapLine.getDescription();
+    }
 }

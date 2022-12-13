@@ -291,10 +291,11 @@ public class TapResult implements ModelObject, Serializable {
      * Called from TapResult/index.jelly
      * @param tapFile location of TAP file
      * @param diagnostic TAP diagnostics
+     * @param tapLine TAP origin of the diagnsotic table
      * @return diagnostic table
      */
-    public String createDiagnosticTable(String tapFile, Map<String, Object> diagnostic) {
-        return DiagnosticUtil.createDiagnosticTable(tapFile, diagnostic);
+    public String createDiagnosticTable(String tapFile, Map<String, Object> diagnostic, TestResult tapLine) {
+        return DiagnosticUtil.createDiagnosticTable(tapFile, diagnostic, tapLine);
     }
 
     /**
@@ -421,5 +422,13 @@ public class TapResult implements ModelObject, Serializable {
             }
         }
         return null;
+    }
+
+    public String getClazz(TestResult tapLine) {
+        return Util.getClazz("test_", tapLine);
+    }
+
+    public String getId(TestResult tapLine, String file) {
+        return Util.getId("", tapLine, file);
     }
 }
