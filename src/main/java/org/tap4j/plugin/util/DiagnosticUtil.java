@@ -104,9 +104,9 @@ public class DiagnosticUtil {
                             downloadKey = parentKey;
                         }
                     }
-                    sb.append("<td><a href='downloadAttachment?f=").append(tapFile).append("&key=").append(downloadKey).append("'>").append(fileName).append("</a></td>");
+                    sb.append(td(key,id)).append("<a href='downloadAttachment?f=").append(tapFile).append("&key=").append(downloadKey).append("'>").append(fileName).append("</a></td>");
                 } else {
-                    sb.append("<td  id='").append(getKeyId(key, id)).append("' ><pre>").append(org.apache.commons.lang.StringEscapeUtils.escapeHtml(value.toString())).append("</pre></td>");
+                    sb.append(td(key,id)).append("<pre>").append(org.apache.commons.lang.StringEscapeUtils.escapeHtml(value.toString())).append("</pre></td>");
                 }
                 sb.append("</tr>");
             }
@@ -121,17 +121,21 @@ public class DiagnosticUtil {
                 }
                 sb.append("<td style=\"width: auto;\">").append(key).append(jspm(getKeyId(key, id))).append("</td>");
                 if (value instanceof java.util.Map) {
-                    sb.append("<td> </td>");
+                    sb.append(td(key,id)).append("</td>");
                     createDiagnosticTableRecursively(tapFile, key, (java.util.Map) value, sb,
                             (depth + 1), tapLine);
                 } else {
-                    sb.append("<td  id='").append(getKeyId(key, id)).append("' ><pre>").append(org.apache.commons.lang.StringEscapeUtils.escapeHtml(value.toString())).append("</pre></td>");
+                    sb.append(td(key,id)).append("<pre>").append(org.apache.commons.lang.StringEscapeUtils.escapeHtml(value.toString())).append("</pre></td>");
                 }
                 sb.append("</tr>");
             }
         }
 
         sb.append(INNER_TABLE_FOOTER);
+    }
+
+    private static String td(String key, String id) {
+        return "<td class='detail_body'' id='" + getKeyId(key, id) + "' >";
     }
 
     private static RENDER_TYPE getMapEntriesRenderType(

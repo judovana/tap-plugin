@@ -31,6 +31,15 @@
 								${it.bailOuts} Bail Out!;
 								<u onclick='showHideInline("js+-")'> +/- </u>,
 							</td>
+							<td>
+								<i class="js+-">show:
+									<u onclick='showFailed()'>failed</u><j:whitespace> / </j:whitespace>
+									<u onclick='showFailedDetails()'>failed details</u><j:whitespace> / </j:whitespace>
+									<u onclick='hideDetails()'>no details</u><j:whitespace> / </j:whitespace>
+									<u onclick='showNothing()'>nothing</u><j:whitespace> / </j:whitespace>
+									<u onclick='showAll()'>all</u>
+								</i>
+							</td>
 						</tr>
 					</table>
 				    

@@ -38,3 +38,60 @@ function showHideOne(id, type) {
   var el = document.getElementById(id);
   if (el.style.display=='none') {el.style.display = type} else {el.style.display = 'none'};
 }
+
+function set(clazz, type) {
+  var all = document.getElementsByClassName(clazz);
+  for (var i = 0; i < all.length; i ++) {
+    all[i].style.display = type;
+  }
+}
+
+function showFailed() {
+  set("test_ok","none")
+  set("test_not ok","table-row")
+  set("test_ok_SKIP","none")
+  set("tr_details_ok","none")
+  set("tr_details_not ok","none")
+  set("tr_details_ok_SKIP","none")
+  set("detail_body","none")
+}
+
+function showFailedDetails() {
+  set("test_ok","none")
+  set("test_not ok","table-row")
+  set("test_ok_SKIP","none")
+  set("tr_details_ok","none")
+  set("tr_details_not ok","table-row")
+  set("tr_details_ok_SKIP","none")
+  set("detail_body","block")
+}
+
+function hideDetails() {
+  set("test_ok","none")
+  set("test_not ok","table-row")
+  set("test_ok_SKIP","none")
+  set("tr_details_ok","none")
+  set("tr_details_not ok","table-row")
+  set("tr_details_ok_SKIP","table-none")
+  set("detail_body","none")
+}
+
+function showNothing() {
+  set("test_ok","none")
+  set("test_not ok","none")
+  set("test_ok_SKIP","none")
+  set("tr_details_ok","none")
+  set("tr_details_not ok","none")
+  set("tr_details_ok_SKIP","none")
+  set("detail_body","none")
+}
+
+function showAll(){
+  set("test_ok","table-row")
+  set("test_not ok","table-row")
+  set("test_ok_SKIP","table-row")
+  set("tr_details_ok","table-row")
+  set("tr_details_not ok","table-row")
+  set("tr_details_ok_SKIP","table-row")
+  set("detail_body","block")
+}
