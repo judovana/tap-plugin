@@ -24,7 +24,7 @@
 					        <tap:status testResult="${tapLine}" />
 							<!-- If anchor ends with space, chromium like browsers are cutting them off-->
 							<td width="5%" class="center"><a href="#${it.getId(tapLine,tapFile)}!" name="${it.getId(tapLine,tapFile)}!">${tapLine.testNumber}</a></td>
-					        <td width="65%">${tapLine.description}  <u class="js+-" onclick='showHideRowOne("tr_details_${it.getId(tapLine,tapFile)}")'>+/-</u></td>
+					        <td width="65%">${tapLine.description}  <u class="js+-" onclick='extendedTapsetInteractives().showHideRowOne("tr_details_${it.getId(tapLine,tapFile)}")'>+/-</u></td>
 					        <tap:directive directive="${tapLine.directive}" />
 					    </tr>
 					    <!-- Comments diagnostics -->

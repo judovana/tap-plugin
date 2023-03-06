@@ -24,20 +24,20 @@
 						<tr>
 							<td width='5%'>${it.testSets.size()} files</td>
 							<td>${it.getTotal()} tests,
-								${it.passed} <u onclick='showHideRowGroup("ok")' > ok </u>,
-								${it.failed} <u onclick='showHideRowGroup("not ok")'> not ok </u>,
-								${it.skipped} <u onclick='showHideRowGroup("ok_SKIP")'> skipped </u>,
+								${it.passed} <u onclick='extendedTapsetInteractives().showHideRowGroup("ok")' > ok </u>,
+								${it.failed} <u onclick='extendedTapsetInteractives().showHideRowGroup("not ok")'> not ok </u>,
+								${it.skipped} <u onclick='extendedTapsetInteractives().showHideRowGroup("ok_SKIP")'> skipped </u>,
 								${it.toDo} ToDo,
 								${it.bailOuts} Bail Out!;
-								<u onclick='showHideInline("js+-")'> +/- </u>,
+								<u onclick='extendedTapsetInteractives().showHideInline("js+-")'> +/- </u>,
 							</td>
 							<td>
 								<i class="js+-">show:
-									<u onclick='showFailed()'>failed</u><j:whitespace> / </j:whitespace>
-									<u onclick='showFailedDetails()'>failed details</u><j:whitespace> / </j:whitespace>
-									<u onclick='hideDetails()'>no details</u><j:whitespace> / </j:whitespace>
-									<u onclick='showNothing()'>nothing</u><j:whitespace> / </j:whitespace>
-									<u onclick='showAll()'>all</u>
+									<u onclick='extendedTapsetInteractives().showFailed()'>failed</u><j:whitespace> / </j:whitespace>
+									<u onclick='extendedTapsetInteractives().showFailedDetails()'>failed details</u><j:whitespace> / </j:whitespace>
+									<u onclick='extendedTapsetInteractives().hideDetails()'>no details</u><j:whitespace> / </j:whitespace>
+									<u onclick='extendedTapsetInteractives().showNothing()'>nothing</u><j:whitespace> / </j:whitespace>
+									<u onclick='extendedTapsetInteractives().showAll()'>all</u>
 								</i>
 							</td>
 						</tr>

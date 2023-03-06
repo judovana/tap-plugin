@@ -163,7 +163,7 @@ public class DiagnosticUtil {
     }
 
     private static String jspm(String id) {
-        return " <u class=\"js+-\" onclick='showHideBlockOne(\"" + id + "\")'>+/-</u>";
+        return " <u class=\"js+-\" onclick='extendedTapsetInteractives().showHideBlockOne(\"" + id + "\")'>+/-</u>";
     }
 
 }
