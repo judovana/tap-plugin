@@ -57,3 +57,12 @@ table.yaml td
 border: 1px solid #ccc;
 padding: 2px 4px;
 }
+
+
+.tapIclick {
+  cursor: pointer;
+}
+
+.jsPM {
+  cursor: pointer;
+}
