@@ -23,21 +23,61 @@
 				    <table width='100%'>
 						<tr>
 							<td width='5%'>${it.testSets.size()} files</td>
-							<td>${it.getTotal()} tests,
-								${it.passed} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideRowGroup("ok")' > ok </u>,
-								${it.failed} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideRowGroup("not ok")'> not ok </u>,
-								${it.skipped} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideRowGroup("ok_SKIP")'> skipped </u>,
-								${it.toDo} ToDo,
-								${it.bailOuts} Bail Out!;
-								<u class='tapIclick' onclick='extendedTapsetInteractives().showHideInline("jsPM")'> +/- </u>,
+							<td>
+								<span class="tapItooltip">
+									<span class="tapItooltiptext">total found tests</span>
+									${it.getTotal()} tests,
+								</span>
+								<span class="tapItooltip">
+									${it.passed} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideRowGroup("ok")' > ok </u>,
+									<span class="tapItooltiptext">click to show/hide passed tests</span>
+								</span>
+								<span class="tapItooltip">
+									${it.failed} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideRowGroup("not ok")'> not ok </u>,
+									<span class="tapItooltiptext">click to show/hide failed tests</span>
+								</span>
+								<span class="tapItooltip">
+									${it.skipped} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideRowGroup("ok_SKIP")'> skipped </u>,
+									<span class="tapItooltiptext">click to show/hide skipped tests</span>
+								</span>
+								<span class="tapItooltip">
+									${it.toDo} ToDo,
+									<span class="tapItooltiptext">click to show/hide ToDo tests</span>
+								</span>
+								<span class="tapItooltip">
+									${it.bailOuts} Bail Out!;
+									<span class="tapItooltiptext">click to show/hide bailed out tests</span>
+								</span>
+								<span class="tapItooltip">
+									<u class='tapIclick' onclick='extendedTapsetInteractives().showHideInline("jsPM")'> +/- </u>,
+									<span class="tapItooltiptext">
+										click to show/hide the expandable +/- element <br/>
+										elsewhere in document +/- is collapsing/expanding traces and rows
+									</span>
+								</span>
 							</td>
 							<td>
 								<i class="jsPM">show:
-									<u class='tapIclick' onclick='extendedTapsetInteractives().showFailed()'>failed</u><j:whitespace> / </j:whitespace>
-									<u class='tapIclick' onclick='extendedTapsetInteractives().showFailedDetails()'>failed details</u><j:whitespace> / </j:whitespace>
-									<u class='tapIclick' onclick='extendedTapsetInteractives().hideDetails()'>no details</u><j:whitespace> / </j:whitespace>
-									<u class='tapIclick' onclick='extendedTapsetInteractives().showNothing()'>nothing</u><j:whitespace> / </j:whitespace>
-									<u class='tapIclick' onclick='extendedTapsetInteractives().showAll()'>all</u>
+									<span class="tapItooltip">
+										<u class='tapIclick' onclick='extendedTapsetInteractives().showFailed()'>failed</u><j:whitespace> / </j:whitespace>
+										<span class="tapItooltiptext">list only failed tests (without output)</span>
+									</span>
+									<span class="tapItooltip">
+										<u class='tapIclick' onclick='extendedTapsetInteractives().showFailedDetails()'>failed details</u><j:whitespace> / </j:whitespace>
+										<span class="tapItooltiptext">show only failed tests with all output</span>
+									</span>
+									<span class="tapItooltip">
+										<u class='tapIclick' onclick='extendedTapsetInteractives().hideDetails()'>no details</u><j:whitespace> / </j:whitespace>
+										<span class="tapItooltiptext">hide details of each row</span>
+									</span>
+									<span class="tapItooltip">
+										<u class='tapIclick' onclick='extendedTapsetInteractives().showNothing()'>nothing</u><j:whitespace> / </j:whitespace>
+										<span class="tapItooltiptext">hide all</span>
+									</span>
+									<span class="tapItooltip">
+										<u class='tapIclick' onclick='extendedTapsetInteractives().showAll()'>all</u>
+										<span class="tapItooltiptext">show all</span>
+									</span>
 								</i>
 							</td>
 						</tr>

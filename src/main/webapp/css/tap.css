@@ -66,3 +66,42 @@ padding: 2px 4px;
 .jsPM {
   cursor: pointer;
 }
+
+.tapItooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tapItooltip .tapItooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1000; /*jenkins toplevel bar is 999*/
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tapItooltip .tapItooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tapItooltip:hover .tapItooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
