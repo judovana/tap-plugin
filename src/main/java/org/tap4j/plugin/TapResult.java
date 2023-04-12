@@ -279,6 +279,14 @@ public class TapResult implements ModelObject, Serializable {
         return this.bailOuts;
     }
 
+    public int getComments() {
+        int count = 0;
+        for (TestSetMap testSet: testSets) {
+            count += testSet.getTestSet().getComments().size();
+        }
+        return count;
+    }
+
     public int getTotal() {
         return this.total;
     }

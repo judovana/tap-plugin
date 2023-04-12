@@ -44,6 +44,12 @@
 									${it.toDo} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideTodos()'> ToDo </u>,
 									<span class="tapItooltiptext">click to show/hide ToDo tests</span>
 								</span>
+								<j:if test="${it.includeCommentDiagnostics}">
+									<span class="tapItooltip">
+										${it.getComments()} comments,
+										<span class="tapItooltiptext">click to show/hide comments</span>
+									</span>
+								</j:if>
 								<span class="tapItooltip">
 									${it.bailOuts} Bail Out!;
 									<span class="tapItooltiptext">click to show/hide bailed out tests</span>
