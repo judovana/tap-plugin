@@ -37,11 +37,11 @@
 									<span class="tapItooltiptext">click to show/hide failed tests</span>
 								</span>
 								<span class="tapItooltip">
-									${it.skipped} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideRowGroup("ok_SKIP")'> skipped </u>,
+									${it.skipped} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideSkips()'> skipped </u>,
 									<span class="tapItooltiptext">click to show/hide skipped tests</span>
 								</span>
 								<span class="tapItooltip">
-									${it.toDo} ToDo,
+									${it.toDo} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideTodos()'> ToDo </u>,
 									<span class="tapItooltiptext">click to show/hide ToDo tests</span>
 								</span>
 								<span class="tapItooltip">

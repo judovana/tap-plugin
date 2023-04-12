@@ -95,15 +95,64 @@ extendedTapsetInteractives = function () {
   }
 
   /**
+  Utility method tho show/hide various skip declarations
+  **/
+  function showHideSkips() {
+    showHideRowGroup("ok_SKIP")
+    showHideRowGroup("not ok_SKIP")
+  }
+
+  /**
+  Utility method tho show/hide various todo declarations (this is nto a todo:)
+  **/
+  function showHideTodos() {
+    showHideRowGroup("ok_TODO")
+    showHideRowGroup("not ok_TODO")
+  }
+
+  /**
+  Utility method tho set various skip declarations
+  **/
+  function setSkips(value) {
+      set("test_ok_SKIP", value)
+      set("test_not ok_SKIP", value)
+  }
+
+  /**
+  Utility method tho set various todo declarations
+  **/
+  function setTodos(value) {
+    set("test_ok_TODO", value)
+    set("test_not ok_TODO", value)
+  }
+
+  /**
+  Utility method tho set various skip declarations in tables
+  **/
+  function setTrSkips(value) {
+      set("tr_details_ok_SKIP", value)
+      set("tr_details_not ok_SKIP", value)
+  }
+
+  /**
+  Utility method tho set various todo declarations in tables
+  **/
+  function setTrTodos(value) {
+    set("tr_details_ok_TODO", value)
+    set("tr_details_not ok_TODO", value)
+  }
+  /**
   Shortcut method to set display of all not-ok elements to table-row, and none to others
   **/
   function showFailed() {
     set("test_ok", "none")
     set("test_not ok", "table-row")
-    set("test_ok_SKIP", "none")
+    setSkips("none")
+    setTodos("none")
     set("tr_details_ok", "none")
     set("tr_details_not ok", "none")
-    set("tr_details_ok_SKIP", "none")
+    setTrSkips("none")
+    setTrTodos("none")
     set("detail_body", "none")
   }
 
@@ -113,10 +162,12 @@ extendedTapsetInteractives = function () {
   function showFailedDetails() {
     set("test_ok", "none")
     set("test_not ok", "table-row")
-    set("test_ok_SKIP", "none")
+    setSkips("none")
+    setTodos("none")
     set("tr_details_ok", "none")
     set("tr_details_not ok", "table-row")
-    set("tr_details_ok_SKIP", "none")
+    setTrSkips("none")
+    setTrTodos("none")
     set("detail_body", "block")
   }
 
@@ -127,10 +178,12 @@ extendedTapsetInteractives = function () {
   function hideDetails() {
     set("test_ok", "none")
     set("test_not ok", "table-row")
-    set("test_ok_SKIP", "none")
+    setSkips("none")
+    setTodos("none")
     set("tr_details_ok", "none")
     set("tr_details_not ok", "table-row")
-    set("tr_details_ok_SKIP", "table-none")
+    setTrSkips("table-none")
+    setTrTodos("table-none")
     set("detail_body", "none")
   }
 
@@ -140,10 +193,12 @@ extendedTapsetInteractives = function () {
   function showNothing() {
     set("test_ok", "none")
     set("test_not ok", "none")
-    set("test_ok_SKIP", "none")
+    setSkips("none")
+    setTodos("none")
     set("tr_details_ok", "none")
     set("tr_details_not ok", "none")
-    set("tr_details_ok_SKIP", "none")
+    setTrSkips("none")
+    setTrTodos("none")
     set("detail_body", "none")
   }
 
@@ -153,10 +208,12 @@ extendedTapsetInteractives = function () {
   function showAll() {
     set("test_ok", "table-row")
     set("test_not ok", "table-row")
-    set("test_ok_SKIP", "table-row")
+    setSkips("table-row")
+    setTodos("table-row")
     set("tr_details_ok", "table-row")
     set("tr_details_not ok", "table-row")
-    set("tr_details_ok_SKIP", "table-row")
+    setTrSkips("table-row")
+    setTrTodos("table-row")
     set("detail_body", "block")
   }
 
@@ -175,7 +232,10 @@ extendedTapsetInteractives = function () {
     showFailedDetails: showFailedDetails,
     hideDetails: hideDetails,
     showNothing: showNothing,
-    showAll: showAll
+    showAll: showAll,
+    //setSkips,setTodos,setTrSkips,setTrTodos //no need to publish
+    showHideSkips: showHideSkips,
+    showHideTodos: showHideTodos
   }
 
 }
