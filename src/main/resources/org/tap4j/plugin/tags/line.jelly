@@ -34,7 +34,7 @@
 	                </j:if>
 				</j:when>
 				<j:when  test="${it.isBailOut( tapLine )}">
-					<tr class="${it.getClazz(tapLine)}" id="${it.getId(tapLine,tapFile)}">
+					<tr class="${it.getClazz(tapLine)}">
                         <td class="red center" width="5%"><img src="/plugin/tap/icons/exclamation.png" alt="Bail out! ${tapLine.reason}" title="Bail out! ${tapLine.reason}" /></td>
                         <td width="5%" class="center"> </td>
                         <td width="65%"><span class="red_text bold">Bail out! ${tapLine.reason}</span></td>
@@ -42,7 +42,7 @@
                     </tr>
 				</j:when>
 				<j:when test="${it.isComment( tapLine ) and it.includeCommentDiagnostics}">
-                    <tr class="${it.getClazz(tapLine)}" id="${it.getId(tapLine,tapFile)}">
+                    <tr class="${it.getClazz(tapLine)}">
                         <td></td>
                         <td colspan='3'>
                             # ${it.escapeHTML(tapLine.text)}<br/>

@@ -110,6 +110,14 @@ extendedTapsetInteractives = function () {
     showHideRowGroup("not ok_TODO")
   }
 
+  function showHideComments(){
+    showHideRow("_comment_")
+  }
+
+    function showHideBails(){
+      showHideRow("_bailout_")
+    }
+
   /**
   Utility method tho set various skip declarations
   **/
@@ -147,12 +155,14 @@ extendedTapsetInteractives = function () {
   function showFailed() {
     set("test_ok", "none")
     set("test_not ok", "table-row")
+    set("_bailout_", "table-row")
     setSkips("none")
     setTodos("none")
     set("tr_details_ok", "none")
     set("tr_details_not ok", "none")
     setTrSkips("none")
     setTrTodos("none")
+    set("_comment_", "none")
     set("detail_body", "none")
   }
 
@@ -162,12 +172,14 @@ extendedTapsetInteractives = function () {
   function showFailedDetails() {
     set("test_ok", "none")
     set("test_not ok", "table-row")
+    set("_bailout_", "table-row")
     setSkips("none")
     setTodos("none")
     set("tr_details_ok", "none")
     set("tr_details_not ok", "table-row")
     setTrSkips("none")
     setTrTodos("none")
+    set("_comment_", "none")
     set("detail_body", "block")
   }
 
@@ -178,12 +190,14 @@ extendedTapsetInteractives = function () {
   function hideDetails() {
     set("test_ok", "none")
     set("test_not ok", "table-row")
+    set("_bailout_", "table-row")
     setSkips("none")
     setTodos("none")
     set("tr_details_ok", "none")
     set("tr_details_not ok", "table-row")
     setTrSkips("table-none")
     setTrTodos("table-none")
+    set("_comment_", "none")
     set("detail_body", "none")
   }
 
@@ -193,12 +207,14 @@ extendedTapsetInteractives = function () {
   function showNothing() {
     set("test_ok", "none")
     set("test_not ok", "none")
+    set("_bailout_", "none")
     setSkips("none")
     setTodos("none")
     set("tr_details_ok", "none")
     set("tr_details_not ok", "none")
     setTrSkips("none")
     setTrTodos("none")
+    set("_comment_", "none")
     set("detail_body", "none")
   }
 
@@ -208,12 +224,14 @@ extendedTapsetInteractives = function () {
   function showAll() {
     set("test_ok", "table-row")
     set("test_not ok", "table-row")
+    set("_bailout_", "table-row")
     setSkips("table-row")
     setTodos("table-row")
     set("tr_details_ok", "table-row")
     set("tr_details_not ok", "table-row")
     setTrSkips("table-row")
     setTrTodos("table-row")
+    set("_comment_", "table-row")
     set("detail_body", "block")
   }
 
@@ -235,7 +253,9 @@ extendedTapsetInteractives = function () {
     showAll: showAll,
     //setSkips,setTodos,setTrSkips,setTrTodos //no need to publish
     showHideSkips: showHideSkips,
-    showHideTodos: showHideTodos
+    showHideTodos: showHideTodos,
+    showHideComments: showHideComments,
+    showHideBails: showHideBails
   }
 
 }

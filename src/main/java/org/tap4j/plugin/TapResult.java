@@ -432,11 +432,19 @@ public class TapResult implements ModelObject, Serializable {
         return null;
     }
 
+    public String getClazz(BailOut tapLine) {
+        return "_bailout_";
+    }
+
+    public String getClazz(Comment tapLine) {
+        return "_comment_";
+    }
     public String getClazz(TestResult tapLine) {
         return Util.getClazz("test_", tapLine);
     }
 
     public String getId(TestResult tapLine, String file) {
-        return Util.getId("", tapLine, file);
+        return  Util.getId("", tapLine, file);
     }
+
 }

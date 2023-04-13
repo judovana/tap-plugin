@@ -46,12 +46,12 @@
 								</span>
 								<j:if test="${it.includeCommentDiagnostics}">
 									<span class="tapItooltip">
-										${it.getComments()} comments,
+										${it.getComments()} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideComments()'> comments </u>,
 										<span class="tapItooltiptext">click to show/hide comments</span>
 									</span>
 								</j:if>
 								<span class="tapItooltip">
-									${it.bailOuts} Bail Out!;
+									${it.bailOuts} <u class='tapIclick' onclick='extendedTapsetInteractives().showHideBails()'> Bail Out! </u>;
 									<span class="tapItooltiptext">click to show/hide bailed out tests</span>
 								</span>
 								<span class="tapItooltip">
