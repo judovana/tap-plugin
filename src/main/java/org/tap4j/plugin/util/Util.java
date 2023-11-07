@@ -94,10 +94,10 @@ public final class Util {
     }
 
     public static String getClazz(String prefix, TestResult tapLine) {
-        return prefix + tapLine.getStatus() + (tapLine.getDirective() == null ? "" : "_" + tapLine.getDirective().getDirectiveValue());
+        return (prefix + tapLine.getStatus() + (tapLine.getDirective() == null ? "" : "_" + tapLine.getDirective().getDirectiveValue())).replaceAll("\\s+", "_");
     }
 
     public static String getId(String prefix, TestResult tapLine, String file) {
-        return prefix + file + "_" + tapLine.getTestNumber() + "_" + tapLine.getDescription();
+        return (prefix + file + "_" + tapLine.getTestNumber() + "_" + tapLine.getDescription()).replaceAll("\\s+", "_");
     }
 }

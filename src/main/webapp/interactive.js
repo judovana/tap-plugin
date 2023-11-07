@@ -43,8 +43,9 @@ extendedTapsetInteractives = function () {
   function showHide(clazz, type) {
     var all = document.getElementsByClassName(clazz);
     for (var i = 0; i < all.length; i++) {
-      if (all[i].style.display == 'none') { all[i].style.display = type } else { all[i].style.display = 'none' };
+      if (all[i].style != null) if (all[i].style.display == 'none') { all[i].style.display = type } else { all[i].style.display = 'none' };
     }
+    fixButtons();
   }
 
   /**
@@ -81,7 +82,8 @@ extendedTapsetInteractives = function () {
   **/
   function showHideOne(id, type) {
     var el = document.getElementById(id);
-    if (el.style.display == 'none') { el.style.display = type } else { el.style.display = 'none' };
+    if (el != null && el.style != null) if (el.style.display == 'none') { el.style.display = type } else { el.style.display = 'none' };
+    fixButtons();
   }
 
   /**
@@ -90,40 +92,61 @@ extendedTapsetInteractives = function () {
   function set(clazz, type) {
     var all = document.getElementsByClassName(clazz);
     for (var i = 0; i < all.length; i++) {
-      all[i].style.display = type;
+      if (all[i].style != null) {all[i].style.display = type;}
     }
+    fixButtons();
+  }
+  /**
+    Utility method to show/hide ok rows
+  **/
+  function showHideOk() {
+    showHideRowGroup("ok")
   }
 
+  /**
+    Utility method to show/hide ok rows
+  **/
+  function showHideNotOk() {
+    showHideRowGroup("not_ok")
+  }
   /**
   Utility method tho show/hide various skip declarations
   **/
   function showHideSkips() {
     showHideRowGroup("ok_SKIP")
-    showHideRowGroup("not ok_SKIP")
+    showHideRowGroup("not_ok_SKIP")
   }
 
   /**
-  Utility method tho show/hide various todo declarations (this is nto a todo:)
+  Utility method tho show/hide various todo and details declarations (this is not a todo:)
   **/
   function showHideTodos() {
     showHideRowGroup("ok_TODO")
-    showHideRowGroup("not ok_TODO")
+    showHideRowGroup("not_ok_TODO")
   }
 
   function showHideComments(){
     showHideRow("_comment_")
   }
 
-    function showHideBails(){
-      showHideRow("_bailout_")
-    }
+  function showHideBails(){
+    showHideRow("_bailout_")
+  }
 
+  function showHideDetailsRows() {
+    showHideRow("tr_details_ok")
+    showHideRow("tr_details_not_ok")
+  }
+
+  function showHideDetails() {
+    showHideBlock("detail_body")
+  }
   /**
   Utility method tho set various skip declarations
   **/
   function setSkips(value) {
       set("test_ok_SKIP", value)
-      set("test_not ok_SKIP", value)
+      set("test_not_ok_SKIP", value)
   }
 
   /**
@@ -131,7 +154,7 @@ extendedTapsetInteractives = function () {
   **/
   function setTodos(value) {
     set("test_ok_TODO", value)
-    set("test_not ok_TODO", value)
+    set("test_not_ok_TODO", value)
   }
 
   /**
@@ -139,7 +162,7 @@ extendedTapsetInteractives = function () {
   **/
   function setTrSkips(value) {
       set("tr_details_ok_SKIP", value)
-      set("tr_details_not ok_SKIP", value)
+      set("tr_details_not_ok_SKIP", value)
   }
 
   /**
@@ -147,19 +170,19 @@ extendedTapsetInteractives = function () {
   **/
   function setTrTodos(value) {
     set("tr_details_ok_TODO", value)
-    set("tr_details_not ok_TODO", value)
+    set("tr_details_not_ok_TODO", value)
   }
   /**
   Shortcut method to set display of all not-ok elements to table-row, and none to others
   **/
   function showFailed() {
     set("test_ok", "none")
-    set("test_not ok", "table-row")
+    set("test_not_ok", "table-row")
     set("_bailout_", "table-row")
     setSkips("none")
     setTodos("none")
     set("tr_details_ok", "none")
-    set("tr_details_not ok", "none")
+    set("tr_details_not_ok", "none")
     setTrSkips("none")
     setTrTodos("none")
     set("_comment_", "none")
@@ -171,12 +194,12 @@ extendedTapsetInteractives = function () {
   **/
   function showFailedDetails() {
     set("test_ok", "none")
-    set("test_not ok", "table-row")
+    set("test_not_ok", "table-row")
     set("_bailout_", "table-row")
     setSkips("none")
     setTodos("none")
     set("tr_details_ok", "none")
-    set("tr_details_not ok", "table-row")
+    set("tr_details_not_ok", "table-row")
     setTrSkips("none")
     setTrTodos("none")
     set("_comment_", "none")
@@ -189,12 +212,12 @@ extendedTapsetInteractives = function () {
   **/
   function hideDetails() {
     set("test_ok", "none")
-    set("test_not ok", "table-row")
+    set("test_not_ok", "table-row")
     set("_bailout_", "table-row")
     setSkips("none")
     setTodos("none")
     set("tr_details_ok", "none")
-    set("tr_details_not ok", "table-row")
+    set("tr_details_not_ok", "table-row")
     setTrSkips("table-none")
     setTrTodos("table-none")
     set("_comment_", "none")
@@ -206,12 +229,12 @@ extendedTapsetInteractives = function () {
   **/
   function showNothing() {
     set("test_ok", "none")
-    set("test_not ok", "none")
+    set("test_not_ok", "none")
     set("_bailout_", "none")
     setSkips("none")
     setTodos("none")
     set("tr_details_ok", "none")
-    set("tr_details_not ok", "none")
+    set("tr_details_not_ok", "none")
     setTrSkips("none")
     setTrTodos("none")
     set("_comment_", "none")
@@ -223,24 +246,112 @@ extendedTapsetInteractives = function () {
   **/
   function showAll() {
     set("test_ok", "table-row")
-    set("test_not ok", "table-row")
+    set("test_not_ok", "table-row")
     set("_bailout_", "table-row")
     setSkips("table-row")
     setTodos("table-row")
     set("tr_details_ok", "table-row")
-    set("tr_details_not ok", "table-row")
+    set("tr_details_not_ok", "table-row")
     setTrSkips("table-row")
     setTrTodos("table-row")
     set("_comment_", "table-row")
     set("detail_body", "block")
   }
 
+  //you can not pass ..args to another ..args
+  //otherwise one would end in array of arrays
+  //so calling getMultipleClasses directly, requires array on input
+  function getMultipleClasses(args) {
+      var all = new Array();
+      for(let arg of args) {
+        var singleClass = Array.from(document.getElementsByClassName(arg))
+        all = all.concat(singleClass)
+      }
+      var set = new Set(all);
+      const result = [];
+      set.forEach(v => result.push(v)); //Array.from(set) was seen to not work always
+      return result;
+    }
+
+    //-1 all none - all invisible
+    //+1 none none - all visible
+    //0 mixed - some visible, some not (happens mostly for details)
+    function getSelectState(...clazz) {
+      var all = getMultipleClasses(clazz);
+      if (all.length == 0) {
+        return 0;
+      }
+      var none = 0;
+      var something = 0;
+      for (var i = 0; i < all.length; i++) {
+        if (all[i].style == null || all[i].style.display == 'none') { none++ } else { something++ };
+      }
+      if (none == all.length) {
+        return -1;
+      } else if (something == all.length) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+
+    function setButtonByState(button, state) {
+      if (state == -1) {
+        button.classList.remove("tapseExtendedMixed")
+        button.classList.remove("tapseExtendedReleased")
+        button.classList.add("tapseExtendedPushed")
+      } else if (state == 1) {
+        button.classList.remove("tapseExtendedMixed")
+        button.classList.remove("tapseExtendedPushed")
+        button.classList.add("tapseExtendedReleased")
+      } else {
+        button.classList.remove("tapseExtendedPushed")
+        button.classList.remove("tapseExtendedReleased")
+        button.classList.add("tapseExtendedMixed")
+      }
+    }
+
+    function fixButtons() {
+      var btn = document.getElementById("okTestsButton");
+      var state = getSelectState("test_ok");
+      setButtonByState(btn, state);
+      var btn = document.getElementById("notOkTestsButton");
+      var state = getSelectState("test_not_ok");
+      setButtonByState(btn, state);
+      var btn = document.getElementById("commentsTestsButton");
+      if (btn!=null) { //comments can be disabeld in settings
+        var state = getSelectState("_comment_");
+        setButtonByState(btn, state);
+      }
+      var btn = document.getElementById("bailedTestsButton");
+      var state = getSelectState("_bailout_");
+      setButtonByState(btn, state);
+      var btn = document.getElementById("detailsTestsButton");
+      var state = getSelectState("detail_body");
+      setButtonByState(btn, state);
+      var btn = document.getElementById("skippedTestsButton");
+      var state = getSelectState("test_ok_SKIP", "tr_details_ok_SKIP", "test_not_ok_SKIP", "tr_details_not_ok_SKIP");
+      setButtonByState(btn, state);
+      var btn = document.getElementById("todoTestsButton");
+      var state = getSelectState("test_ok_TODO", "tr_details_ok_TODO", "test_not_ok_TODO", "tr_details_not_ok_TODO");
+      setButtonByState(btn, state);
+      var btn = document.getElementById("detailRowsTestsButton");
+      var state = getSelectState("tr_details_ok", "tr_details_not_ok");
+      setButtonByState(btn, state);
+
+      var btn = document.getElementById("plusMinusTestsButton");
+      var state = getSelectState("jsPM");
+      setButtonByState(btn, state);
+    }
+
+
   return {
     showHideBlock: showHideBlock,
     showHideRow: showHideRow,
-    showHideRowGroup: showHideRowGroup,
+    showHideOk: showHideOk,
+    showHideNotOk: showHideNotOk,
     showHideInline: showHideInline,
-    //showHide: showHide,  //no need to publish
+    //showHide: showHideRowGroup,showHide,  //no need to publish
     showHideRowOne: showHideRowOne,
     showHideInlineOne: showHideInlineOne,
     showHideBlockOne: showHideBlockOne,
@@ -255,7 +366,10 @@ extendedTapsetInteractives = function () {
     showHideSkips: showHideSkips,
     showHideTodos: showHideTodos,
     showHideComments: showHideComments,
-    showHideBails: showHideBails
+    showHideBails: showHideBails,
+    showHideDetailsRows: showHideDetailsRows,
+    showHideDetails: showHideDetails,
+    fixButtons:fixButtons
   }
 
 }
