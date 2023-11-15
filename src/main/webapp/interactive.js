@@ -1,5 +1,7 @@
 extendedTapsetInteractives = function () {
 
+  var batchRunning = false;
+
   /**
   For all elements of given class,
   if they are  hidden (display == none) the display is set to block
@@ -176,34 +178,46 @@ extendedTapsetInteractives = function () {
   Shortcut method to set display of all not-ok elements to table-row, and none to others
   **/
   function showFailed() {
-    set("test_ok", "none")
-    set("test_not_ok", "table-row")
-    set("_bailout_", "table-row")
-    setSkips("none")
-    setTodos("none")
-    set("tr_details_ok", "none")
-    set("tr_details_not_ok", "none")
-    setTrSkips("none")
-    setTrTodos("none")
-    set("_comment_", "none")
-    set("detail_body", "none")
+    batchRunning = true
+    try {
+      set("test_ok", "none")
+      set("test_not_ok", "table-row")
+      set("_bailout_", "table-row")
+      setSkips("none")
+      setTodos("none")
+      set("tr_details_ok", "none")
+      set("tr_details_not_ok", "none")
+      setTrSkips("none")
+      setTrTodos("none")
+      set("_comment_", "none")
+      set("detail_body", "none")
+    } finally {
+      batchRunning=false
+      fixButtons();
+    }
   }
 
   /**
   Shortcut method to set display of all not-ok elements and theirs details to table-row, and none to others
   **/
   function showFailedDetails() {
-    set("test_ok", "none")
-    set("test_not_ok", "table-row")
-    set("_bailout_", "table-row")
-    setSkips("none")
-    setTodos("none")
-    set("tr_details_ok", "none")
-    set("tr_details_not_ok", "table-row")
-    setTrSkips("none")
-    setTrTodos("none")
-    set("_comment_", "none")
-    set("detail_body", "block")
+  batchRunning = true
+    try {
+      set("test_ok", "none")
+      set("test_not_ok", "table-row")
+      set("_bailout_", "table-row")
+      setSkips("none")
+      setTodos("none")
+      set("tr_details_ok", "none")
+      set("tr_details_not_ok", "table-row")
+      setTrSkips("none")
+      setTrTodos("none")
+      set("_comment_", "none")
+      set("detail_body", "block")
+    } finally {
+      batchRunning=false
+      fixButtons();
+    }
   }
 
   /**
@@ -211,51 +225,69 @@ extendedTapsetInteractives = function () {
   ok-skip is set to table-none to hide details body, but keep the its row opened for user-expansion-ondemand
   **/
   function hideDetails() {
-    set("test_ok", "none")
-    set("test_not_ok", "table-row")
-    set("_bailout_", "table-row")
-    setSkips("none")
-    setTodos("none")
-    set("tr_details_ok", "none")
-    set("tr_details_not_ok", "table-row")
-    setTrSkips("table-none")
-    setTrTodos("table-none")
-    set("_comment_", "none")
-    set("detail_body", "none")
+    batchRunning = true
+    try{
+      set("test_ok", "none")
+      set("test_not_ok", "table-row")
+      set("_bailout_", "table-row")
+      setSkips("none")
+      setTodos("none")
+      set("tr_details_ok", "none")
+      set("tr_details_not_ok", "table-row")
+      setTrSkips("table-none")
+      setTrTodos("table-none")
+      set("_comment_", "none")
+      set("detail_body", "none")
+    } finally {
+      batchRunning=false
+      fixButtons();
+    }
   }
 
   /**
   Shortcut method to set display of all elements to none
   **/
   function showNothing() {
-    set("test_ok", "none")
-    set("test_not_ok", "none")
-    set("_bailout_", "none")
-    setSkips("none")
-    setTodos("none")
-    set("tr_details_ok", "none")
-    set("tr_details_not_ok", "none")
-    setTrSkips("none")
-    setTrTodos("none")
-    set("_comment_", "none")
-    set("detail_body", "none")
+    batchRunning = true
+    try{
+      set("test_ok", "none")
+      set("test_not_ok", "none")
+      set("_bailout_", "none")
+      setSkips("none")
+      setTodos("none")
+      set("tr_details_ok", "none")
+      set("tr_details_not_ok", "none")
+      setTrSkips("none")
+      setTrTodos("none")
+      set("_comment_", "none")
+      set("detail_body", "none")
+    } finally {
+      batchRunning=false
+      fixButtons();
+    }
   }
 
   /**
   Shortcut method to set display of all elements to block or table-row
   **/
   function showAll() {
-    set("test_ok", "table-row")
-    set("test_not_ok", "table-row")
-    set("_bailout_", "table-row")
-    setSkips("table-row")
-    setTodos("table-row")
-    set("tr_details_ok", "table-row")
-    set("tr_details_not_ok", "table-row")
-    setTrSkips("table-row")
-    setTrTodos("table-row")
-    set("_comment_", "table-row")
-    set("detail_body", "block")
+    batchRunning = true
+    try {
+      set("test_ok", "table-row")
+      set("test_not_ok", "table-row")
+      set("_bailout_", "table-row")
+      setSkips("table-row")
+      setTodos("table-row")
+      set("tr_details_ok", "table-row")
+      set("tr_details_not_ok", "table-row")
+      setTrSkips("table-row")
+      setTrTodos("table-row")
+      set("_comment_", "table-row")
+      set("detail_body", "block")
+    } finally {
+      batchRunning=false
+      fixButtons();
+    }
   }
 
   //you can not pass ..args to another ..args
@@ -312,6 +344,9 @@ extendedTapsetInteractives = function () {
     }
 
     function fixButtons() {
+      if (batchRunning) {
+        return;
+      }
       var btn = document.getElementById("okTestsButton");
       var state = getSelectState("test_ok");
       setButtonByState(btn, state);
