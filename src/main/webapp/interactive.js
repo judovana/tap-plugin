@@ -308,7 +308,7 @@ extendedTapsetInteractives = function () {
     //-1 all none - all invisible
     //+1 none none - all visible
     //0 mixed - some visible, some not (happens mostly for details)
-    function getSelectState(...clazz) {
+    function getSelectState(clazz) {
       var all = getMultipleClasses(clazz);
       if (all.length == 0) {
         return 0;
@@ -348,34 +348,34 @@ extendedTapsetInteractives = function () {
         return;
       }
       var btn = document.getElementById("okTestsButton");
-      var state = getSelectState("test_ok");
+      var state = getSelectState(["test_ok"]);
       setButtonByState(btn, state);
       var btn = document.getElementById("notOkTestsButton");
-      var state = getSelectState("test_not_ok");
+      var state = getSelectState(["test_not_ok"]);
       setButtonByState(btn, state);
       var btn = document.getElementById("commentsTestsButton");
       if (btn!=null) { //comments can be disabeld in settings
-        var state = getSelectState("_comment_");
+        var state = getSelectState(["_comment_"]);
         setButtonByState(btn, state);
       }
       var btn = document.getElementById("bailedTestsButton");
-      var state = getSelectState("_bailout_");
+      var state = getSelectState(["_bailout_"]);
       setButtonByState(btn, state);
       var btn = document.getElementById("detailsTestsButton");
-      var state = getSelectState("detail_body");
+      var state = getSelectState(["detail_body"]);
       setButtonByState(btn, state);
       var btn = document.getElementById("skippedTestsButton");
-      var state = getSelectState("test_ok_SKIP", "tr_details_ok_SKIP", "test_not_ok_SKIP", "tr_details_not_ok_SKIP");
+      var state = getSelectState(["test_ok_SKIP", "tr_details_ok_SKIP", "test_not_ok_SKIP", "tr_details_not_ok_SKIP"]);
       setButtonByState(btn, state);
       var btn = document.getElementById("todoTestsButton");
-      var state = getSelectState("test_ok_TODO", "tr_details_ok_TODO", "test_not_ok_TODO", "tr_details_not_ok_TODO");
+      var state = getSelectState(["test_ok_TODO", "tr_details_ok_TODO", "test_not_ok_TODO", "tr_details_not_ok_TODO"]);
       setButtonByState(btn, state);
       var btn = document.getElementById("detailRowsTestsButton");
-      var state = getSelectState("tr_details_ok", "tr_details_not_ok");
+      var state = getSelectState(["tr_details_ok", "tr_details_not_ok"]);
       setButtonByState(btn, state);
 
       var btn = document.getElementById("plusMinusTestsButton");
-      var state = getSelectState("jsPM");
+      var state = getSelectState(["jsPM"]);
       setButtonByState(btn, state);
     }
 
