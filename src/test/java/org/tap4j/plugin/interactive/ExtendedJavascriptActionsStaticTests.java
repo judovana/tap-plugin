@@ -164,7 +164,7 @@ public class ExtendedJavascriptActionsStaticTests {
         assertTrue("At least one script must be there", scripts.size() > 0);
         for (Object futureScript : scripts) {
             HtmlScript scrip = (HtmlScript) futureScript;
-            if (scrip.getSrcAttribute().endsWith("/plugin/tap/interactive.js")) {
+            if (scrip.getSrcAttribute().endsWith("/plugin/tap-interactive/interactive.js")) {
                 return;
             }
         }

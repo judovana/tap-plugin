@@ -9,7 +9,7 @@ f = namespace("/lib/form")
 d = namespace("jelly:define")
 
 
-l.layout(norefresh: "true", css: "/plugin/tap/css/tap.css") {
+l.layout(norefresh: "true", css: "/plugin/tap-interactive/css/tap.css") {
   st.include(it: it.owner, page: "sidepanel.jelly") 
   l.main-panel() {
     h1("TAP Test Results") 

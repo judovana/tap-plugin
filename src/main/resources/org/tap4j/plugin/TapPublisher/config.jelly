@@ -8,7 +8,7 @@
   </f:entry>
   <f:advanced>
       <f:entry>
-          <f:checkbox title="Fail the build if no test results (files) are found" help="/plugin/tap/help/TapPublisher/help-failIfNoResults.html" name="TapPublisher.failIfNoResults" value="${instance.failIfNoResults}" checked="${instance.failIfNoResults}"/>
+          <f:checkbox title="Fail the build if no test results (files) are found" help="/plugin/tap-interactive/help/TapPublisher/help-failIfNoResults.html" name="TapPublisher.failIfNoResults" value="${instance.failIfNoResults}" checked="${instance.failIfNoResults}"/>
       </f:entry>
       <f:entry>
           <f:checkbox title="Failed tests mark build as failure" name="TapPublisher.failedTestsMarkBuildAsFailure" value="${instance.failedTestsMarkBuildAsFailure}" checked="${instance.failedTestsMarkBuildAsFailure}" />
@@ -47,7 +47,7 @@
           <f:checkbox title="Remove corrupted YAML" name="TapPublisher.removeYamlIfCorrupted" value="${instance.removeYamlIfCorrupted}" checked="${instance.removeYamlIfCorrupted}" default="false" />
       </f:entry>
       <f:entry>
-          <f:checkbox title="Skip if build not successful" help="/plugin/tap/help/TapPublisher/help-skipIfBuildNotOk.html" name="TapPublisher.skipIfBuildNotOk" value="${instance.skipIfBuildNotOk}" checked="${instance.skipIfBuildNotOk}" default="false" />
+          <f:checkbox title="Skip if build not successful" help="/plugin/tap-interactive/help/TapPublisher/help-skipIfBuildNotOk.html" name="TapPublisher.skipIfBuildNotOk" value="${instance.skipIfBuildNotOk}" checked="${instance.skipIfBuildNotOk}" default="false" />
       </f:entry>
   </f:advanced>
 </j:jelly>

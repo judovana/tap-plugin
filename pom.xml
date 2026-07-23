@@ -36,13 +36,13 @@ SOFTWARE.
   <inceptionYear>2011</inceptionYear>
 
   <groupId>org.tap4j</groupId>
-  <artifactId>tap</artifactId>
+  <artifactId>tap-interactive</artifactId>
   <version>2.4.5-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
-  <name>Jenkins TAP Plugin</name>
-  <description>This plugin publishes TAP test results.</description>
-  <url>https://github.com/jenkinsci/tap-plugin</url>
+  <name>Jenkins TAP-INTERACTIVE Plugin</name>
+  <description>This plugin publishes TAP test results and allows interactive filtering.</description>
+  <url>https://github.com/judovana/tap-interactive-plugin</url>
 
   <licenses>
     <license>
@@ -50,11 +50,6 @@ SOFTWARE.
       <url>https://opensource.org/licenses/MIT</url>
     </license>
   </licenses>
-
-  <issueManagement>
-    <system>JIRA</system>
-    <url>https://issues.jenkins.io/issues/?jql=project%20%3D%20JENKINS%20AND%20component%20%3D%20tap-plugin</url>
-  </issueManagement>
 
   <properties>
     <revision>2.4.0</revision>
@@ -76,6 +71,11 @@ SOFTWARE.
       <id>kinow</id>
       <name>Bruno P. Kinoshita</name>
       <timezone>Europe/Madrid</timezone>
+    </developer>
+    <developer>
+      <id>judovana</id>
+      <name>judovana</name>
+      <timezone>Europe/Prague</timezone>
     </developer>
   </developers>
 
