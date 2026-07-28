@@ -27,10 +27,10 @@ import hudson.model.FreeStyleProject;
 import hudson.model.Run;
 import hudson.tasks.Shell;
 import org.htmlunit.html.*;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 import org.tap4j.plugin.TapPublisher;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -44,8 +44,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Check that JS and links on extended page contains correct symbols
@@ -58,10 +58,9 @@ import static org.junit.Assert.assertTrue;
  *
  * @since 2.X.Y
  */
+@WithJenkins
 public class ExtendedJavascriptActionsStaticTests {
 
-    @Rule
-    public JenkinsRule statJRule = new JenkinsRule();
 
     public static final String[] testIds = {
             "Input file opened",
@@ -161,7 +160,7 @@ public class ExtendedJavascriptActionsStaticTests {
 
     public static void checkInteractiveJs(HtmlPage page) {
         List scripts = page.getByXPath("//script");
-        assertTrue("At least one script must be there", scripts.size() > 0);
+        assertTrue(scripts.size() > 0, "At least one script must be there");
         for (Object futureScript : scripts) {
             HtmlScript scrip = (HtmlScript) futureScript;
             if (scrip.getSrcAttribute().endsWith("/plugin/tap-interactive/interactive.js")) {
@@ -175,7 +174,7 @@ public class ExtendedJavascriptActionsStaticTests {
     /**
      * This tests checks that there is no JS exception if tap fie contains no tests
      */
-    public void checkNoTestDoNotFault() throws IOException, SAXException, ExecutionException, InterruptedException {
+    public void checkNoTestDoNotFault(JenkinsRule statJRule) throws IOException, SAXException, ExecutionException, InterruptedException {
         final FreeStyleProject project = statJRule.createFreeStyleProject();
         String tapFileName = "suite1.tap";
         final Shell shell = new Shell("echo \"\" > " + tapFileName + "\n");
@@ -192,9 +191,9 @@ public class ExtendedJavascriptActionsStaticTests {
             HtmlPage page = wc.goTo("job/" + project.getName() + "/" + build.getNumber() + "/tapResults/");
             checkInteractiveJs(page);
             List tables = page.getByXPath("//table[@class='tap']");
-            assertEquals("There should still be tap table", 1, tables.size());
+            assertEquals(1, tables.size(), "There should still be tap table");
             List centerCells = page.getByXPath("//td[@class='center']");
-            assertEquals("There should no test loaded", 0, centerCells.size());
+            assertEquals(0, centerCells.size(), "There should no test loaded");
         }
     }
 
@@ -204,7 +203,7 @@ public class ExtendedJavascriptActionsStaticTests {
     /**
      * This tests feature where each test id is pointable by UNIQUE anchor and the acnhor is provided by it
      */
-    public void checkLinkToTestExists() throws IOException, SAXException, ExecutionException, InterruptedException {
+    public void checkLinkToTestExists(JenkinsRule statJRule) throws IOException, SAXException, ExecutionException, InterruptedException {
         final FreeStyleProject project = statJRule.createFreeStyleProject();
         String tapFileName = "suite1.tap";
         String[] testIds = {
@@ -237,7 +236,7 @@ public class ExtendedJavascriptActionsStaticTests {
             HtmlPage page = wc.goTo("job/" + project.getName() + "/" + build.getNumber() + "/tapResults/");
             checkInteractiveJs(page);
             List centerCells = page.getByXPath("//td[@class='center']");
-            assertEquals("There should be four tests loaded", 4, centerCells.size());
+            assertEquals(4, centerCells.size(), "There should be four tests loaded");
             for (int x = 0; x < 4; x++) {
                 HtmlTableDataCell cell = (HtmlTableDataCell) centerCells.get(x);
                 DomNode anchorImpl = cell.getFirstChild();
@@ -246,12 +245,12 @@ public class ExtendedJavascriptActionsStaticTests {
                 String selfHref = anchor.getAttribute("name");
                 String href = anchor.getAttribute("href");
                 String text = anchor.getVisibleText();
-                assertEquals("the text should be order of result", "" + (x + 1), text);
-                assertEquals("the id and self point to it shoudl be same ", href, "#" + selfHref);
-                assertTrue("href must contain suite", href.contains(tapFileName));
-                assertTrue("href must contain id", href.contains("_" + (x + 1) + "_"));
-                assertTrue("href must contain test id", href.contains(testIds[x].replace(" ", "_")));
-                assertEquals("href should match following convention", ("#" + tapFileName + "_" + (x + 1) + "_-_" + testIds[x].replace(" ", "_") + "!").replaceAll("_+", "_"), href);
+                assertEquals("" + (x + 1), text, "the text should be order of result");
+                assertEquals(href, "#" + selfHref, "the id and self point to it shoudl be same ");
+                assertTrue(href.contains(tapFileName), "href must contain suite");
+                assertTrue(href.contains("_" + (x + 1) + "_"), "href must contain id");
+                assertTrue(href.contains(testIds[x].replace(" ", "_")), "href must contain test id");
+                assertEquals(("#" + tapFileName + "_" + (x + 1) + "_-_" + testIds[x].replace(" ", "_") + "!").replaceAll("_+", "_"), href, "href should match following convention");
             }
         }
     }
@@ -261,7 +260,7 @@ public class ExtendedJavascriptActionsStaticTests {
     /**
      * this test checks that all is ivisble at start and that all classes needed forshow/hide actions are there
      */
-    public void checkControlIdsExists() throws IOException, SAXException, ExecutionException, InterruptedException {
+    public void checkControlIdsExists(JenkinsRule statJRule) throws IOException, SAXException, ExecutionException, InterruptedException {
         final FreeStyleProject project = statJRule.createFreeStyleProject();
         String tapFileName = "suite2.tap";
         project.getBuildersList().add(getShell(tapFileName));
@@ -279,21 +278,21 @@ public class ExtendedJavascriptActionsStaticTests {
             List tapMainRows = page.getByXPath("//table[@class='tap']/tbody/tr"); //there are also nested rows
             //19=1header+3coments on top+1comment in middle+8tests 2bailedout lines + 4 comment rows (each detail is subrow in subtable)
             int totalRows = 1 + 3 + 1 + 8 + 2 + 4;
-            assertEquals("There should be four tests loaded", totalRows, tapMainRows.size());
+            assertEquals(totalRows, tapMainRows.size(), "There should be four tests loaded");
             DomNode cellHead = (DomNode) tapMainRows.get(0);
-            assertEquals("header have no atts", 0, cellHead.getAttributes().getLength());
+            assertEquals(0, cellHead.getAttributes().getLength(), "header have no atts");
             for (int x = 1; x < totalRows; x++) {
                 DomNode row = (DomNode) tapMainRows.get(x);
                 String s2 = row.asXml();
                 Node jsclazz = row.getAttributes().getNamedItem("class");
                 String jsClazzValue = jsclazz.getTextContent();
-                assertEquals("class at row " + x, classes[x], jsClazzValue);
+                assertEquals(classes[x], jsClazzValue, "class at row " + x);
                 HtmlTableRow tableRow = (HtmlTableRow) row;
-                assertTrue("the element must be visible", tableRow.isDisplayed());
+                assertTrue(tableRow.isDisplayed(), "the element must be visible");
             }
             List detailsRows = page.getByXPath("//table[@class='tap']/tbody/tr//tr");
             //4 rows have valid detail. Each have 2 details. Each
-            assertEquals("There should be four tests loaded", 8, detailsRows.size());
+            assertEquals(8, detailsRows.size(), "There should be four tests loaded");
             for (int x = 0; x < detailsRows.size(); x++) {
                 int idCounter = (x % 2) + 1;
                 HtmlTableRow tableRow = (HtmlTableRow) (detailsRows.get(x));
@@ -313,7 +312,7 @@ public class ExtendedJavascriptActionsStaticTests {
     /**
      * this test is chekcing that all ids in generated file are indeed unique
      */
-    public void testUniqueIds() throws IOException, SAXException, ExecutionException, InterruptedException {
+    public void testUniqueIds(JenkinsRule statJRule) throws IOException, SAXException, ExecutionException, InterruptedException {
         final FreeStyleProject project = statJRule.createFreeStyleProject();
         String tapFileName = "suite2.tap";
         project.getBuildersList().add(getShell(tapFileName));
@@ -330,9 +329,9 @@ public class ExtendedJavascriptActionsStaticTests {
             checkInteractiveJs(page);
             List tapMainRows = page.getByXPath("//table[@class='tap']/tbody/tr"); //there are also nested rows
             int totalRows = 19;
-            assertEquals("There should be four tests loaded", totalRows, tapMainRows.size());
+            assertEquals(totalRows, tapMainRows.size(), "There should be four tests loaded");
             DomNode cellHead = (DomNode) tapMainRows.get(0);
-            assertEquals("header have no atts", 0, cellHead.getAttributes().getLength());
+            assertEquals(0, cellHead.getAttributes().getLength(), "header have no atts");
             for (int x = 1; x < totalRows; x++) {
                 DomNode row = (DomNode) tapMainRows.get(x);
                 Node jsId = row.getAttributes().getNamedItem("id");
@@ -343,7 +342,7 @@ public class ExtendedJavascriptActionsStaticTests {
             }
             List detailsRows = page.getByXPath("//table[@class='tap']/tbody/tr//tr");
             //4 rows have valid detail. Each have 2 details. Each
-            assertEquals("There should be four tests loaded", 8, detailsRows.size());
+            assertEquals(8, detailsRows.size(), "There should be four tests loaded");
             for (int x = 0; x < detailsRows.size(); x++) {
                 HtmlTableRow tableRow = (HtmlTableRow) (detailsRows.get(x));
                 String rowId = tableRow.getId();
@@ -356,7 +355,7 @@ public class ExtendedJavascriptActionsStaticTests {
                 return !a.isEmpty();
             }).collect(Collectors.toList());
             Set uniqueIds = new HashSet(allIds);
-            assertEquals("all ids must be unique", allIds.size(), uniqueIds.size());
+            assertEquals(allIds.size(), uniqueIds.size(), "all ids must be unique");
             List allPlusMinus = page.getByXPath("//u[@class='jsPM']");
             List allNamedHrefs = page.getByXPath("//td/a[@name]");
             List<String> unusedIds = new ArrayList<>(allIds);
@@ -388,10 +387,10 @@ public class ExtendedJavascriptActionsStaticTests {
                     }
                 }
             }
-            assertEquals("all ids were used", 0, unusedIds.size());
-            assertEquals("all hrefs were used", 0, namedHrefsUnmatched.size());
+            assertEquals(0, unusedIds.size(), "all ids were used");
+            assertEquals(0, namedHrefsUnmatched.size(), "all hrefs were used");
             /*there are four rows without details, so thiers +/- shows nothing*/
-            assertEquals("all +/- with rows were used", 4, pmUnmatched.size());
+            assertEquals(4, pmUnmatched.size(), "all +/- with rows were used");
         }
     }
 }

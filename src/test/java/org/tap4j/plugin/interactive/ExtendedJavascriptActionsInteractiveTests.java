@@ -30,10 +30,10 @@ import org.htmlunit.html.HtmlPage;
 import org.htmlunit.html.HtmlTableCell;
 import org.htmlunit.html.HtmlTableRow;
 import org.htmlunit.html.HtmlUnderlined;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 import org.tap4j.plugin.TapPublisher;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -43,9 +43,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Check that JS extended page works
@@ -58,10 +58,9 @@ import static org.junit.Assert.assertTrue;
  *
  * @since 2.X.Y
  */
+@WithJenkins
 public class ExtendedJavascriptActionsInteractiveTests {
 
-    @Rule
-    public JenkinsRule intJRule = new JenkinsRule();
 
     public static int[] countVisibleDetailRowsAndBodies(HtmlPage page) {
         int visibleDetailsRows = 0;
@@ -85,7 +84,7 @@ public class ExtendedJavascriptActionsInteractiveTests {
     /**
      * this test is checking that preset views to they job in hiding/showing proepr elements
      */
-    public void testPresetViewsWorks() throws IOException, SAXException, ExecutionException, InterruptedException {
+    public void testPresetViewsWorks(JenkinsRule intJRule) throws IOException, SAXException, ExecutionException, InterruptedException {
         final FreeStyleProject project = intJRule.createFreeStyleProject();
         String tapFileName = "suite2.tap";
         project.getBuildersList().add(ExtendedJavascriptActionsStaticTests.getShell(tapFileName));
@@ -100,107 +99,107 @@ public class ExtendedJavascriptActionsInteractiveTests {
             HtmlPage page = wc.goTo("job/" + project.getName() + "/" + build.getNumber() + "/tapResults/");
             //all is visible on startup
             List rowsBeforeClicl = page.getByXPath("//table[@class='tap']/tbody/tr");
-            assertEquals("There should be four tests loaded", 19, rowsBeforeClicl.size());
+            assertEquals(19, rowsBeforeClicl.size(), "There should be four tests loaded");
             DomNode cellHead = (DomNode) rowsBeforeClicl.get(0);
-            assertEquals("header have no atts", 0, cellHead.getAttributes().getLength());
+            assertEquals(0, cellHead.getAttributes().getLength(), "header have no atts");
             for (int x = 1; x < 19; x++) {
                 DomNode row = (DomNode) rowsBeforeClicl.get(x);
                 String s = row.asXml();
                 Node jsclazz = row.getAttributes().getNamedItem("class");
                 String jsClazzValue = jsclazz.getTextContent();
-                assertEquals("class at row " + x, ExtendedJavascriptActionsStaticTests.classes[x], jsClazzValue);
+                assertEquals(ExtendedJavascriptActionsStaticTests.classes[x], jsClazzValue, "class at row " + x);
                 HtmlTableRow tableRow = (HtmlTableRow) row;
-                assertTrue("the element must be visible", tableRow.isDisplayed());
+                assertTrue(tableRow.isDisplayed(), "the element must be visible");
             }
             int[] found0 = countVisibleDetailRowsAndBodies(page);
-            assertEquals("all details rows must be visible", 8, found0[0]);
-            assertEquals("all details cells must be visible", 8, found0[1]);
+            assertEquals(8, found0[0], "all details rows must be visible");
+            assertEquals(8, found0[1], "all details cells must be visible");
             //find buttons to click onto
             ExtendedJavascriptActionsStaticTests.checkInteractiveJs(page);
             List mainViews = page.getByXPath("//u[@class='tapIclick']");
-            assertEquals("There should be five preset views", 5, mainViews.size());
+            assertEquals(5, mainViews.size(), "There should be five preset views");
             HtmlUnderlined clickable = (HtmlUnderlined) (mainViews.get(0));
             clickable.click();
             //only failed
             List tapRowsAfter1click = page.getByXPath("//table[@class='tap']/tbody/tr");
-            assertEquals("There should be tests loaded", 19, tapRowsAfter1click.size());
+            assertEquals(19, tapRowsAfter1click.size(), "There should be tests loaded");
             cellHead = (DomNode) tapRowsAfter1click.get(0);
-            assertEquals("header have no atts", 0, cellHead.getAttributes().getLength());
+            assertEquals(0, cellHead.getAttributes().getLength(), "header have no atts");
             for (int x = 1; x < 19; x++) {
                 DomNode row = (DomNode) tapRowsAfter1click.get(x);
                 String s = row.asXml();
                 Node jsclazz = row.getAttributes().getNamedItem("class");
                 String jsClazzValue = jsclazz.getTextContent();
-                assertEquals("class at row " + x, ExtendedJavascriptActionsStaticTests.classes[x], jsClazzValue);
+                assertEquals(ExtendedJavascriptActionsStaticTests.classes[x], jsClazzValue, "class at row " + x);
                 HtmlTableRow tableRow = (HtmlTableRow) row;
                 if (ExtendedJavascriptActionsStaticTests.classes[x].equals("test_not_ok") || ExtendedJavascriptActionsStaticTests.classes[x].equals("_bailout_")) {
-                    assertTrue("the element must be visible " + tableRow, tableRow.isDisplayed());
+                    assertTrue(tableRow.isDisplayed(), "the element must be visible " + tableRow);
                 } else {
-                    assertFalse("the element must NOT be visible " + tableRow, tableRow.isDisplayed());
+                    assertFalse(tableRow.isDisplayed(), "the element must NOT be visible " + tableRow);
                 }
             }
             int[] found1 = countVisibleDetailRowsAndBodies(page);
-            assertEquals("none details rows must be visible", 0, found1[0]);
-            assertEquals("none details cells must be visible", 0, found1[1]);
+            assertEquals(0, found1[0], "none details rows must be visible");
+            assertEquals(0, found1[1], "none details cells must be visible");
 
             clickable = (HtmlUnderlined) (mainViews.get(1));
             clickable.click();
             //failed with trace
             List tapRowsAfter2click = page.getByXPath("//table[@class='tap']/tbody/tr");
-            assertEquals("There should be tests loaded", 19, tapRowsAfter2click.size());
+            assertEquals(19, tapRowsAfter2click.size(), "There should be tests loaded");
             cellHead = (DomNode) tapRowsAfter2click.get(0);
-            assertEquals("header have no atts", 0, cellHead.getAttributes().getLength());
+            assertEquals(0, cellHead.getAttributes().getLength(), "header have no atts");
             for (int x = 1; x < 19; x++) {
                 DomNode row = (DomNode) tapRowsAfter2click.get(x);
                 String s = row.asXml();
                 Node jsclazz = row.getAttributes().getNamedItem("class");
                 String jsClazzValue = jsclazz.getTextContent();
-                assertEquals("class at row " + x, ExtendedJavascriptActionsStaticTests.classes[x], jsClazzValue);
+                assertEquals(ExtendedJavascriptActionsStaticTests.classes[x], jsClazzValue, "class at row " + x);
                 HtmlTableRow tableRow = (HtmlTableRow) row;
                 if (ExtendedJavascriptActionsStaticTests.classes[x].equals("test_not_ok") ||
                         ExtendedJavascriptActionsStaticTests.classes[x].equals("_bailout_") ||
                         ExtendedJavascriptActionsStaticTests.classes[x].equals("tr_details_not_ok")
                 ) {
-                    assertTrue("the element must be visible " + tableRow, tableRow.isDisplayed());
+                    assertTrue(tableRow.isDisplayed(), "the element must be visible " + tableRow);
                 } else {
-                    assertFalse("the element must NOT be visible " + tableRow, tableRow.isDisplayed());
+                    assertFalse(tableRow.isDisplayed(), "the element must NOT be visible " + tableRow);
                 }
             }
             int[] found2 = countVisibleDetailRowsAndBodies(page);
-            assertEquals("none details rows must be visible ", 4, found2[0]);
-            assertEquals("none details cells must be visible ", 4, found2[1]);
+            assertEquals(4, found2[0], "none details rows must be visible ");
+            assertEquals(4, found2[1], "none details cells must be visible ");
 
             clickable = (HtmlUnderlined) (mainViews.get(2));
             clickable.click();
             //failed with trace
             List tapRowsAfter3click = page.getByXPath("//table[@class='tap']/tbody/tr");
-            assertEquals("There should be tests loaded", 19, tapRowsAfter3click.size());
+            assertEquals(19, tapRowsAfter3click.size(), "There should be tests loaded");
             cellHead = (DomNode) tapRowsAfter3click.get(0);
-            assertEquals("header have no atts", 0, cellHead.getAttributes().getLength());
+            assertEquals(0, cellHead.getAttributes().getLength(), "header have no atts");
             for (int x = 1; x < 19; x++) {
                 DomNode row = (DomNode) tapRowsAfter3click.get(x);
                 String s = row.asXml();
                 Node jsclazz = row.getAttributes().getNamedItem("class");
                 String jsClazzValue = jsclazz.getTextContent();
-                assertEquals("class at row " + x, ExtendedJavascriptActionsStaticTests.classes[x], jsClazzValue);
+                assertEquals(ExtendedJavascriptActionsStaticTests.classes[x], jsClazzValue, "class at row " + x);
                 HtmlTableRow tableRow = (HtmlTableRow) row;
                 if (ExtendedJavascriptActionsStaticTests.classes[x].equals("test_not_ok") ||
                         ExtendedJavascriptActionsStaticTests.classes[x].equals("_bailout_") ||
                         ExtendedJavascriptActionsStaticTests.classes[x].equals("tr_details_not_ok")
                 ) {
-                    assertTrue("the element must be visible " + tableRow, tableRow.isDisplayed());
+                    assertTrue(tableRow.isDisplayed(), "the element must be visible " + tableRow);
                 } else {
                     String style = tableRow.getAttribute("style");
                     if ("display: table-none;".equals(style)) {
                         System.err.println("It is invisible just htmluit do not know");
                     } else {
-                        assertFalse("the element must NOT be visible " + tableRow, tableRow.isDisplayed());
+                        assertFalse(tableRow.isDisplayed(), "the element must NOT be visible " + tableRow);
                     }
                 }
             }
             int[] found3 = countVisibleDetailRowsAndBodies(page);
-            assertEquals("none details rows must be visible", 6, found3[0]); //this is weird, it seems it is suffering the same issue with display: table-none as above
-            assertEquals("none details cells must be visible", 0, found3[1]);
+            assertEquals(6, found3[0], "none details rows must be visible"); //this is weird, it seems it is suffering the same issue with display: table-none as above
+            assertEquals(0, found3[1], "none details cells must be visible");
         }
     }
 
