@@ -26,7 +26,7 @@ package org.tap4j.plugin.util;
 import org.tap4j.model.TestResult;
 
 import hudson.Functions;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -101,7 +101,7 @@ public class DiagnosticUtil {
             sb.append("<tr>");
 
             sb.append("<td width='5%' class='hidden'> </td>".repeat(Math.max(0, depth)));
-            sb.append("<td style=\"width: auto;\">").append(StringEscapeUtils.escapeHtml(key)).append(jspm(getKeyId(key, id))).append("</td>");
+            sb.append("<td style=\"width: auto;\">").append(StringEscapeUtils.escapeHtml4(key)).append(jspm(getKeyId(key, id))).append("</td>");
 
             if(renderType == RENDER_TYPE.IMAGE && key.equals("File-Content")) {
                 final Object o = diagnostic.get("File-Name");
@@ -115,14 +115,14 @@ public class DiagnosticUtil {
                         "&key=",
                         Functions.htmlAttributeEscape(downloadKey),
                         "'>",
-                        StringEscapeUtils.escapeHtml(fileName),
+                        StringEscapeUtils.escapeHtml4(fileName),
                         "</a></td>"
                 ).forEach(sb::append);
             } else if (renderType == RENDER_TYPE.TEXT && value instanceof java.util.Map) {
                 sb.append(td(key,id)).append(" </td>");
                 createDiagnosticTableRecursively(tapFile, key, (java.util.Map) value, sb, (depth + 1), tapLine);
             } else {
-                sb.append(td(key,id)).append("<pre>").append(org.apache.commons.lang.StringEscapeUtils.escapeHtml(value.toString())).append("</pre></td>");
+                sb.append(td(key,id)).append("<pre>").append(StringEscapeUtils.escapeHtml4(value.toString())).append("</pre></td>");
             }
             sb.append("</tr>");
         }
@@ -149,7 +149,7 @@ public class DiagnosticUtil {
     }
 
     private static String getKeyId(String key, String id) {
-        return StringEscapeUtils.escapeHtml(key + "_" + id);
+        return StringEscapeUtils.escapeHtml4(key + "_" + id);
     }
 
     private static String getId(TestResult tapLine, String file) {
