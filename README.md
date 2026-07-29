@@ -1,3 +1,18 @@
+# TAP-INTERACTIVE Plug-in
+This is fork of https://github.com/jenkinsci/tap-plugin, use https://github.com/judovana/tap-interactive-plugin/tree/master to keep it synced.
+It should always be synced with https://github.com/jenkinsci/tap-plugin, and should mimic its release cycle.
+
+There should be only two commits on top of this:
+ * the interactve navigation and filtering in tap results https://github.com/jenkinsci/tap-plugin/pull/38 (with a bit more details in https://github.com/jenkinsci/tap-plugin/pull/29), which was unluckily never accepted to "upstream"
+ * and renaming itself - https://github.com/judovana/tap-interactive-plugin/pull/1. Nothing else, nothing more.
+
+The development branch is https://github.com/judovana/tap-interactive-plugin/tree/master-fork
+The "upstream" synchronization branch should remain the https://github.com/judovana/tap-interactive-plugin/tree/master.
+
+Although you may have more luck to contribute an changes here, try the "upstream" first.
+
+Except the name, the plugin is fully compatible, incluiding namespace. It it your choice which one yuo will install. They both register the same action so only one will be always used.
+
 # TAP Plug-in
 
 [![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/tap.svg)](https://plugins.jenkins.io/tap)
